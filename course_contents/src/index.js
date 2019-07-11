@@ -9,6 +9,7 @@ const Course=(props)=>{
     <>
     <Header name={course.name} />
     <Content parts={course.parts} />
+    <Total parts={course.parts}  />
     </>
     )
 }
@@ -30,10 +31,17 @@ const Content = (props) => {
   )
 }
 
-// const Total = (props) => {
-//   const {parts} = props;
-//     return  <p>Number of exercises {parts[0].exercises + parts[1].exercises + parts[2].exercises}</p>;
-//   }
+const Total = (props) => {
+  const {parts} = props;
+  let allExercises =[];
+  parts.forEach( x => {
+      allExercises.push(x.exercises);
+  });
+  console.log("allExercises",allExercises)
+  const sum = () => allExercises.reduce((a,p) => a+p) 
+
+  return  <p> <strong>Total of {sum()} exercises</strong> </p>;
+}
 
 const Part = (props) => {
     return <p>{props.part} {props.exercise}  </p>
@@ -56,6 +64,10 @@ const App = () => {
       {
         name: 'State of a component',
         exercises: 1
+      },
+      {
+        name: ' Test of map function',
+        exercises: 5
       }
     ]
   }
