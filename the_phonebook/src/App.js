@@ -9,12 +9,22 @@ const App = () => {
 
   const addPersonToPhonebook = (event) => {
     event.preventDefault()
+
+    if( isOnTheContactList().length >0 ){
+      alert(`${newName} is already in the Phonebook`)
+      return;
+    }
     copy.push({name: newName})
     setPersons(copy)
     setNewName("")
     console.log('copy', copy)
     console.log('person', persons)
     console.log('button clicked', event.target)
+    
+  }
+
+  const isOnTheContactList =()=>{
+    return copy.filter(c => c.name === newName)
   }
 
   const List =()=> {
