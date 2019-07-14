@@ -2,11 +2,16 @@ import React, { useState } from 'react'
 
 const App = () => {
   const [ persons, setPersons] = useState([
-    { name: 'Arto Hellas', number: "333-333-3333" }
+    { name: 'Arto Hellas', number: '040-123456' },
+    { name: 'Ada Lovelace', number: '39-44-5323523' },
+    { name: 'Dan Abramov', number: '12-43-234345' },
+    { name: 'Mary Poppendieck', number: '39-23-6423122' }
   ]) 
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber ] = useState('')
-  let copy = [...persons];
+  const [ searchName, setSearchName ] = useState('')
+  const [ showAll, setShowAll ] = useState(true)
+  let copy = [...persons]
 
   const addPersonToPhonebook = (event) => {
     event.preventDefault()
@@ -15,10 +20,12 @@ const App = () => {
       alert(`${newName} is already in the Phonebook`)
       return;
     }
+    setShowAll(true)
     copy.push({name: newName, number: newNumber})
     setPersons(copy)
     setNewName("")
     setNewNumber("")
+    setSearchName("")
     console.log('copy', copy)
     console.log('person', persons)
     console.log('button clicked', event.target)
@@ -30,7 +37,14 @@ const App = () => {
   }
 
   const List =()=> {
-    const rows = copy.map( c => <Contact key={c.name} name={c.name} number={c.number} />)
+    let rows =""
+    //let searchArr = copy.filter( c => c.name.indexOf(searchName) > -1 />
+    if(showAll){
+      rows = copy.map( c => <Contact key={c.name} name={c.name} number={c.number} />)
+    } else {
+      const searchArr = copy.filter( c => c.name.indexOf(searchName) > -1 )
+      rows = searchArr.map( c => <Contact key={c.name} name={c.name} number={c.number} />)
+    }
     return (
       <div>
         {rows}
@@ -44,16 +58,23 @@ const App = () => {
   }
 
   const handleNameChange = (event) => {
-    console.log(event.target.value)
     setNewName(event.target.value)
   }
   const handleNumberChange = event => {
-    console.log(event.target.value)
     setNewNumber(event.target.value)
+  }
+  const handleNameSearch = event =>{
+    setSearchName(event.target.value)
+    if(event.target.value !== ""){
+      setShowAll(false)
+    }
   }
   return (
     <div>
       <h2>Phonebook</h2>
+      <div>
+       Search For Contact: <input value={searchName}  onChange={handleNameSearch}/>
+      </div> 
       <form onSubmit={addPersonToPhonebook}>
         <div>
           name: <input value={newName} onChange={handleNameChange} />
