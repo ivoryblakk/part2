@@ -2,9 +2,10 @@ import React, { useState } from 'react'
 
 const App = () => {
   const [ persons, setPersons] = useState([
-    { name: 'Arto Hellas' }
+    { name: 'Arto Hellas', number: "333-333-3333" }
   ]) 
   const [ newName, setNewName ] = useState('')
+  const [ newNumber, setNewNumber ] = useState('')
   let copy = [...persons];
 
   const addPersonToPhonebook = (event) => {
@@ -14,9 +15,10 @@ const App = () => {
       alert(`${newName} is already in the Phonebook`)
       return;
     }
-    copy.push({name: newName})
+    copy.push({name: newName, number: newNumber})
     setPersons(copy)
     setNewName("")
+    setNewNumber("")
     console.log('copy', copy)
     console.log('person', persons)
     console.log('button clicked', event.target)
@@ -28,7 +30,7 @@ const App = () => {
   }
 
   const List =()=> {
-    const rows = copy.map( c => <Contact key={c.name} name={c.name} />)
+    const rows = copy.map( c => <Contact key={c.name} name={c.name} number={c.number} />)
     return (
       <div>
         {rows}
@@ -37,13 +39,17 @@ const App = () => {
   }
 
   const Contact = props => {
-    const {name} = props
-    return <div> {name}</div>;
+    const {name , number} = props
+    return <div> {name} {number}</div>;
   }
 
   const handleNameChange = (event) => {
     console.log(event.target.value)
     setNewName(event.target.value)
+  }
+  const handleNumberChange = event => {
+    console.log(event.target.value)
+    setNewNumber(event.target.value)
   }
   return (
     <div>
@@ -51,6 +57,9 @@ const App = () => {
       <form onSubmit={addPersonToPhonebook}>
         <div>
           name: <input value={newName} onChange={handleNameChange} />
+        </div>
+        <div>
+          number: <input value={newNumber} onChange={handleNumberChange} />
         </div>
         <div>
           <button type="submit">add</button>
