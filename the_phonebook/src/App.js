@@ -1,8 +1,8 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import {Filter} from './Filter'
 import PersonForm from './Form'
 import Persons from './Persons'
-
+import axios from 'axios'
 
 const App = () => {
   const [ persons, setPersons] = useState([
@@ -16,11 +16,19 @@ const App = () => {
   const [ searchName, setSearchName ] = useState('')
   const [ showAll, setShowAll ] = useState(true)
   let copy = [...persons]
-
- 
   
-
- 
+  const dbPeronsHook = () => {
+    console.log('effect')
+    axios
+      .get('http://localhost:3001/persons')
+      .then(response => {
+        console.log('promise fulfilled')
+        setPersons(response.data)
+      })
+  }
+  
+  useEffect(dbPeronsHook, [])
+  console.log("Perons Arr", persons)
 
   const addPersonToPhonebook = (event) => {
     event.preventDefault()
