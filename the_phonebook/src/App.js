@@ -1,4 +1,8 @@
 import React, { useState } from 'react'
+import {Filter} from './Filter'
+import PersonForm from './Form'
+import Persons from './Persons'
+
 
 const App = () => {
   const [ persons, setPersons] = useState([
@@ -13,6 +17,11 @@ const App = () => {
   const [ showAll, setShowAll ] = useState(true)
   let copy = [...persons]
 
+ 
+  
+
+ 
+
   const addPersonToPhonebook = (event) => {
     event.preventDefault()
 
@@ -26,37 +35,20 @@ const App = () => {
     setNewName("")
     setNewNumber("")
     setSearchName("")
-    console.log('copy', copy)
-    console.log('person', persons)
-    console.log('button clicked', event.target)
-    
   }
 
   const isOnTheContactList =()=>{
     return copy.filter(c => c.name === newName)
   }
 
-  const List =()=> {
-    let rows =""
-    //let searchArr = copy.filter( c => c.name.indexOf(searchName) > -1 />
-    if(showAll){
-      rows = copy.map( c => <Contact key={c.name} name={c.name} number={c.number} />)
-    } else {
-      const searchArr = copy.filter( c => c.name.indexOf(searchName) > -1 )
-      rows = searchArr.map( c => <Contact key={c.name} name={c.name} number={c.number} />)
-    }
-    return (
-      <div>
-        {rows}
-      </div>
-    )
-  }
+  
 
-  const Contact = props => {
-    const {name , number} = props
-    return <div> {name} {number}</div>;
-  }
-
+  
+/******************************************
+ * 
+ *             Handelers
+ * 
+ ******************************************/
   const handleNameChange = (event) => {
     setNewName(event.target.value)
   }
@@ -69,26 +61,29 @@ const App = () => {
       setShowAll(false)
     }
   }
+
   return (
-    <div>
-      <h2>Phonebook</h2>
+    
       <div>
-       Search For Contact: <input value={searchName}  onChange={handleNameSearch}/>
-      </div> 
-      <form onSubmit={addPersonToPhonebook}>
-        <div>
-          name: <input value={newName} onChange={handleNameChange} />
-        </div>
-        <div>
-          number: <input value={newNumber} onChange={handleNumberChange} />
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
-      <h2>Numbers</h2>
-      <div>{List()}</div>
-    </div>
+        <h2>Phonebook</h2>
+  
+        <Filter searchName={searchName} handleNameSearch={handleNameSearch}  />
+  
+        <h3>Add a new</h3>
+  
+        <PersonForm 
+        addPersonToPhonebook ={addPersonToPhonebook}
+        newName={newName}
+        handleNameChange={handleNameChange}
+        newNumber={newNumber}
+        handleNumberChange={handleNumberChange}
+        />
+  
+        <h3>Numbers</h3>
+  
+        <Persons showAll={showAll} copy={copy} searchName={searchName} />
+      </div>
+  
   )
 }
 
