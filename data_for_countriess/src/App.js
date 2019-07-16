@@ -29,7 +29,7 @@ function App() {
         
         <SearchBar handleSearch={handleSearch} value={selectedCountry}/>
 
-        <ShortList selectedCountry={selectedCountry} countries={countries}/>
+        <ShortList selectedCountry={selectedCountry} countries={countries} setSelectedCountry={setSelectedCountry}/>
 
          
     </div>

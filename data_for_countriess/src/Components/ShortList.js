@@ -2,17 +2,31 @@ import React from 'react';
 import GeneralFacts from './GeneralFacts'
 import Languages from './Languages'
 const ShortList = props =>{
-    const {selectedCountry, countries } = props
+    const {selectedCountry, setSelectedCountry, countries } = props
 
     const rows =()=> {
-        const rows = selectedCountry !== ""? countries.filter((c,i) =>  c.name.indexOf(selectedCountry) > -1) : ""
-       // countries.filter(c =>  c.name.indexOf(selectedCountry) > -1)
+        const rows = selectedCountry !== ""? countries.filter(c =>  c.name.indexOf(selectedCountry) > -1) : ""
         return rows
     }
-    //rows().length >10 ?"Please put in more details" : rows().map(c => <div>  {c.name}  </div>)
+
+    const CountryOfChoice = props => {
+      const {name } = props
+      return (
+         <div>
+           {name}
+          <Button name={name}/> 
+         </div> 
+
+      )
+    }
+
+    const Button = props => {
+      return  <button onClick={() => setSelectedCountry(props.name)}> show </button>
+    }
+  
     return (
       <div>
-        {rows() === "" ? "": rows().length >10 ?"Please put in more details" :rows().length === 1?  "" : rows().map(c => <div key={c.name}>  {c.name}  </div>)}
+        {rows() === "" ? "": rows().length >10 ?"Please put in more details" :rows().length === 1?  "" : rows().map(c => <CountryOfChoice key={c.name}  name={c.name}  />)}
         
         {rows().length === 1?
         <div> 
