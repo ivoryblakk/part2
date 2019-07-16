@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import {Filter} from './Filter'
 import PersonForm from './Form'
 import Persons from './Persons'
+import contactService from './services/contacts'
 import axios from 'axios'
 
 const App = () => {
@@ -28,21 +29,38 @@ const App = () => {
   }
   
   useEffect(dbPeronsHook, [])
+
+ 
+
   console.log("Perons Arr", persons)
 
   const addPersonToPhonebook = (event) => {
     event.preventDefault()
-
+    // Start  json server with | npx json-server --port 3001 --watch db.json
     if( isOnTheContactList().length >0 ){
       alert(`${newName} is already in the Phonebook`)
       return;
     }
-    setShowAll(true)
-    copy.push({name: newName, number: newNumber})
-    setPersons(copy)
-    setNewName("")
-    setNewNumber("")
-    setSearchName("")
+
+    const personObject = {
+      name: newName,
+      number: newNumber,
+      id: persons.length + 1,
+    }
+
+    contactService
+      .create(personObject)
+      .then(data => {
+        setPersons(persons.concat(data))
+        setShowAll(true)
+        copy.push({name: newName, number: newNumber})
+        setPersons(copy)
+        setNewName("")
+        setNewNumber("")
+        setSearchName("")
+      }).catch(err =>{
+        console.log(`This is the err ${err}`)
+      })
   }
 
   const isOnTheContactList =()=>{
@@ -69,6 +87,10 @@ const App = () => {
       setShowAll(false)
     }
   }
+
+ /******************************************
+ *            Main Return 
+ ******************************************/
 
   return (
     
