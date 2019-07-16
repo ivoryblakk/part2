@@ -1,8 +1,6 @@
 import React, {useState, useEffect}from 'react';
 import axios from 'axios';
 import SearchBar from './Components/SearchBar'
-//import Languages from './Components/Languages'
-//import GeneralFacts from './Components/GeneralFacts'
 import ShortList from './Components/ShortList'
 const baseURL ='https://restcountries.eu/rest/v2/all'
 

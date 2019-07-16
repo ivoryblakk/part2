@@ -1,6 +1,7 @@
 import React from 'react';
 import GeneralFacts from './GeneralFacts'
 import Languages from './Languages'
+import Weather from './Weather'
 const ShortList = props =>{
     const {selectedCountry, setSelectedCountry, countries } = props
 
@@ -34,6 +35,7 @@ const ShortList = props =>{
         <GeneralFacts population={rows()[0].population} capital={rows()[0].capital} />
         <Languages languages={rows()[0].languages} />
         <img  width="200px"alt="flag" src={rows()[0].flag} />
+        <Weather name={rows()[0].name} />
         </div>: "" }
       </div>
     )
